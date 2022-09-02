@@ -2460,6 +2460,10 @@ sub new {
 	$CTX_CREATED_IN_THIS_THREAD{$ctx} = 1 if $use_threads;
 	$ctx{$host} = $ctx; # replace value in %ctx with real context
 
+        if ( my $cb = $arg_hash->{SSL_initial_ctx_callback} ) {
+            $cb->($ctx);
+        }
+
 	# SSL_OP_CIPHER_SERVER_PREFERENCE
 	$ssl_op |= 0x00400000 if $arg_hash->{SSL_honor_cipher_order};
 
